@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP FINAL PP3</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="estilo.css">
+</head>
+
+<body class="grey lighten-2">
+    <div id="main">
+        <div class="row">
+            <nav>
+                <div class="nav-wrapper grey darken-4 z-depth-2">
+                    <a class="brand-logo">GINO</a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down tabs-transparent">
+                        <li class="bverde"><a href="dashboard">DASHBOARD</a></li>
+                        <li class="bverde"><a href="server">SERVIDORES</a></li>
+                        <li class="bverde"><a href="cliente">CLIENTES</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="col s12">
+
+                <div class="row">
+
+                    <div class="card-panel grey lighten-1 z-depth-3">
+
+                        <div class="row grey lighten-1 center">
+                            <div class="col s12">
+                                <div class="row z-depth-1">
+                                    <br>
+                                    <h5>GESTION DE SERVIDOR-CLIENTE</h5>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <ul class="tabs">
+                                    <li class="tab col s4 grey darken-4"><a class="active" href="#dashboard">DASHBOARD</a></li>
+                                    <li class="tab col s4 grey darken-4"><a href="#server">SERVIDORES</a></li>
+                                    <li class="tab col s4 grey darken-4"><a href="#cliente">CLIENTES</a></li>
+                                </ul>
+                            </div>
+                            <div id="dashboard" class="col s12">
+
+                                <div class="row">
+                                    <div class="col s12">
+
+                                        <div class="row">
+
+                                            <div class="input-field col s4">
+                                                <label for=""></label>
+                                                <select @change="obtenerServidor($event.target.value)" v-model="c_selec_srv" class="browser-default">
+                                                  <option value="" disabled selected>INDIQUE SERVIDOR</option>
+                                                  <option :value="equipo.dir_ip" v-for="equipo of lista_servidores">{{equipo.hostname}}</option>              
+                                                </select>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <br>
+
+                                <div class="row">
+
+                                    <div class="col s12">
+
+                                        <div class="row">
+
+                                            <div class="col s3 m3">
+                                                <div class="row">
+                                                    <div class="col s12">
+                                                        <div class="card grey darken-4">
+                                                            <div class="card-content white-text">
+                                                                <div class="row">
+                                                                    <span class="card-title center z-depth-2">CPU LIBRE</span>
+                                                                </div>
+                                                                <div class="card-body center">
+                                                                    {{cpu_valor}}%
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col s3 m3">
+
+                                                <div class="row">
+                                                    <div class="col s12 m12 ">
+                                                        <div class="card grey darken-4 z-depth-2">
+                                                            <div class="card-content white-text">
+                                                                <div class="row">
+                                                                    <span class="card-title center z-depth-2">RAM LIBRE </span>
+                                                                </div>
+                                                                <div class="card-body center">
+                                                                    {{ram_valor.freeMemPercentage}}%
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col s3 m3">
+
+                                                <div class="row">
+                                                    <div class="col s12 m12 ">
+                                                        <div class="card grey darken-4 z-depth-2">
+                                                            <div class="card-content white-text">
+                                                                <div class="row">
+                                                                    <span class="card-title center z-depth-2">INTERFACE : {{conex_lo}}</span>
+                                                                </div>
+                                                                <div class="card-body center">
+                                                                    INPUT : {{conex_input}} kB/s OUTPUT : {{conex_output}} kB/s
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col s3 m3">
+
+                                                <div class="row">
+                                                    <div class="col s12 m12 ">
+                                                        <div class="card grey darken-4 z-depth-2">
+                                                            <div class="card-content white-text">
+                                                                <div class="row">
+                                                                    <span class="card-title center z-depth-2">HDD FREE</span>
+                                                                </div>
+                                                                <div class="card-body center">
+                                                                    {{hdd_valor.freeGb}} GB
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div id="server" class="col s12">
+
+                                <div class="row">
+
+                                    <div class="col s7">
+
+                                        <div class="row">
+
+                                            <div class="col s12">
+                                                <div class="card-panel grey darken-4 z-depth-3">
+                                                    <table class="responsive-table centered white-text">
+
+                                                        <tr class="centered card-title center z-depth-1">
+                                                            <th class="center">ID INTERNO</th>
+                                                            <th class="center">SERVER NAME</th>
+                                                            <th class="center">IP</th>
+                                                            <th class="center">EDITAR</th>
+                                                        </tr>
+
+                                                        <tr v-for="srv of lista_servidores" class="highlight z-depth-0 treffects">
+                                                            <td>{{srv.id_host}}</td>
+                                                            <td>{{srv.hostname}}</td>
+                                                            <td>{{srv.dir_ip}}</td>
+                                                            <td><a v-on:click="seleccionarServer ( srv.id_host,srv.hostname,srv.dir_ip,srv.fecha_carga,srv.cliente)" class="btn-floating btn-tiny waves-effect
+                                                            waves-red cyan z-depth-2"><i class="material-icons ">edit</i></a></td>
+                                                        </tr>
+
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col s5">
+                                        <div class="row">
+                                            <form class="col s12">
+                                                <div class="card grey darken-4">
+                                                    <div class="card-content white-text">
+                                                        <div class="row">
+                                                            <span class="card-title center z-depth-2">REGISTRAR SERVER</span>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="input-field col s12 ">
+                                                                    <i class="material-icons prefix">airplay</i>
+                                                                    <input readonly v-model="c_idhost" type="text" placeholder="-" class="cyan-text center">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="input-field col s12 ">
+                                                                    <i class="material-icons prefix">desktop_windows</i>
+                                                                    <input v-model="c_hostname" type="text" placeholder="Hostname" class="cyan-text center">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="input-field col s12 ">
+                                                                    <i class="material-icons prefix">router</i>
+                                                                    <input v-model="c_ip" type="text" placeholder="Direccion IP" class="cyan-text center">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="input-field col s12 ">
+                                                                    <i class="material-icons prefix">access_time</i>
+                                                                    <input v-model="c_falta" type="text" placeholder="Fecha alta(año-mes-dia)" class="cyan-text center">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="input-field col s12 ">
+                                                                    <label for=""></label>
+                                                                    <select @change="obteneridcliente($event.target.value)" v-model="c_selec_cli" class="browser-default center">
+                                                                    <option value="" disabled selected>CLIENTE</option>
+                                                                    <option :value="cli.id_cliente" v-for="cli of lista_clientes">{{cli.razon_social}}</option>              
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col s12">
+                                                                    <div class="row">
+                                                                        <div class="col s4">
+                                                                            <button v-on:click="guardarServer()" class="btn waves-effect waves-light blue darken-4 z-depth-3" type="button" name="action">GUARDAR
+                                                                            <i class="material-icons right">save</i>
+                                                                        </button>
+                                                                        </div>
+                                                                        <div class="col s4">
+                                                                            <button v-on:click="actualizarServer()" class="btn waves-effect waves-light orange darken-4 z-depth-3" type="button" name="action">ACTUALIZAR
+                                                                            <i class="material-icons right">screen_rotation</i>
+                                                                        </button>
+                                                                        </div>
+                                                                        <div class="col s4">
+                                                                            <button v-on:click="eliminarServer()" class=" btn waves-effect waves-light red darken-4 z-depth-3" type="button" name="action">ELIMINAR
+                                                                            <i class="material-icons right">delete_forever</i>
+                                                                        </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="cliente" class="col s12 ">
+
+                                <div class="row ">
+
+                                    <div class="col s12 l7">
+
+                                        <div class="row ">
+
+                                            <div class="col s12 ">
+                                                <div class="card-panel grey darken-4 z-depth-3 ">
+                                                    <table class="responsive-table centered white-text ">
+
+                                                        <tr class="centered card-title center z-depth-1 ">
+                                                            <th class="center ">RAZON SOCIAL</th>
+                                                            <th class="center ">NOMBRE</th>
+                                                            <th class="center ">APELLIDO</th>
+                                                            <th class="center ">TELEFONO</th>
+                                                            <th class="center ">E-MAIL</th>
+                                                            <th class="center "></th>
+                                                        </tr>
+
+                                                        <tr v-for="cli of lista_clientes" class="highlight z-depth-0 treffects ">
+                                                            <td>{{cli.razon_social}}</td>
+                                                            <td>{{cli.nombre}}</td>
+                                                            <td>{{cli.apellido}}</td>
+                                                            <td>{{cli.telefono}}</td>
+                                                            <td>{{cli.correo_electronico}}</td>
+                                                            <td><a v-on:click="seleccionarCliente ( cli.id_cliente,cli.razon_social,cli.nombre,cli.apellido,cli.telefono,cli.correo_electronico)" class="btn-floating btn-tiny waves-effect
+                                                            waves-red cyan z-depth-2"><i class="material-icons ">edit</i></a></td>
+                                                            </td>
+                                                        </tr>
+
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col s12 l5">
+
+                                        <div class="row ">
+                                            <div class="col s12 ">
+                                                <div class="card grey darken-4 ">
+                                                    <div class="card-content white-text ">
+                                                        <div class="row ">
+                                                            <span class="card-title center z-depth-2 ">REGISTRAR CLIENTE</span>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="input-field col s12 ">
+                                                                <i class="material-icons prefix">assignment_late</i>
+                                                                <input readonly v-model="c_idcliente" type="number" placeholder="-" class="cyan-text center">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="input-field col s12 ">
+                                                                <i class="material-icons prefix">class</i>
+                                                                <input v-model="c_razsoc" type="text" placeholder="Razon Social" class="cyan-text center">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="input-field col s12 ">
+                                                                <i class="material-icons prefix">account_box</i>
+                                                                <input v-model="c_nombre" type="text" placeholder="Nombre" class="cyan-text center">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="input-field col s12 ">
+                                                                <i class="material-icons prefix">account_circle</i>
+                                                                <input v-model="c_apellido" type="text" placeholder="Apellido" class="cyan-text center">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="input-field col s12 ">
+                                                                <i class="material-icons prefix">contact_mail</i>
+                                                                <input v-model="c_correo" type="text" placeholder="E-mail" class="cyan-text center">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="input-field col s12 ">
+                                                                <i class="material-icons prefix">contact_phone</i>
+                                                                <input v-model="c_telef" type="text" placeholder="Telefono" class="cyan-text center">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col s12">
+                                                                <div class="row">
+                                                                    <div class="col s4">
+                                                                        <button v-on:click="guardarCliente()" class="btn waves-effect waves-light blue darken-4 z-depth-3" type="button" name="action">GUARDAR
+                                                                        <i class="material-icons right">save</i>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="col s4">
+                                                                        <button v-on:click="actualizarCliente()" class=" btn waves-effect waves-light orange darken-4 z-depth-3" type="button" name="action">ACTUALIZAR
+                                                                        <i class="material-icons right">crop_rotate</i>
+                                                                    </button>
+                                                                    </div>
+                                                                    <div class="col s4">
+                                                                        <button v-on:click="eliminarCliente()" class=" btn waves-effect waves-light red darken-4 z-depth-3" type="button " name="action ">ELIMINAR
+                                                                        <i class="material-icons right">delete_forever</i>
+                                                                    </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js"></script>
+    <script src="index.js"></script>
+</body>
+
+<footer class="page-footer grey darken-4 z-depth-2 ">
+    <div class="container ">
+        <div class="row ">
+            <div class="col l6 s12 ">
+                <h5 class="white-text ">GC SOLUCIONES INFORMATICAS</h5>
+                <p class="grey-text text-lighten-4 ">ESPECIALISTAS EN IT Y SOPORTE TECNICO</p>
+            </div>
+            <div class="col l4 offset-l2 s12 ">
+                <h5 class="white-text ">REDES SOCIALES</h5>
+                <ul>
+                    <li>
+                        <a class="grey-text text-lighten-3 " href="#! ">FACEBOOK</a>
+                    </li>
+                    <li>
+                        <a class="grey-text text-lighten-3 " href="#! ">INSTAGRAM</a>
+                    </li>
+                    <li>
+                        <a class="grey-text text-lighten-3 " href="#! ">LINKEDIN</a>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright ">
+        <div class="container ">
+            © 2020 GC Soluciones Informaticas, All rights reserverd
+        </div>
+    </div>
+</footer>
+
+</html>
